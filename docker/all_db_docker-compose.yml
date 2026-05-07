@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+
+  # ---------------------------
+  # MySQL
+  # ---------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - db_network
+
+  # ---------------------------
+  # PostgreSQL
+  # ---------------------------
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+    ports:
+      - "5499:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - db_network
+
+  # ---------------------------
+  # MongoDB
+  # ---------------------------
+  mongo:
+    image: mongo:6
+    container_name: mongo_db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - db_network
+
+# ---------------------------
+# Volumes (Persistent Data)
+# ---------------------------
+volumes:
+  mysql_data:
+  postgres_data:
+  mongo_data:
+
+# ---------------------------
+# Network
+# ---------------------------
+networks:
+  db_network:
+    driver: bridge
