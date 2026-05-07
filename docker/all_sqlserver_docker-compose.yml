@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+
+  # ---------------------------
+  # SQL Server 2019
+  # ---------------------------
+  sqlserver2019:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver2019
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong@Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql2019_data:/var/opt/mssql
+    networks:
+      - mssql_network
+
+  # ---------------------------
+  # SQL Server 2022
+  # ---------------------------
+  sqlserver2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver2022
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong@Passw0rd"
+    ports:
+      - "1434:1433"
+    volumes:
+      - sql2022_data:/var/opt/mssql
+    networks:
+      - mssql_network
+
+  # ---------------------------
+  # SQL Server 2017
+  # ---------------------------
+  sqlserver2017:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sqlserver2017
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong@Passw0rd"
+    ports:
+      - "1435:1433"
+    volumes:
+      - sql2017_data:/var/opt/mssql
+    networks:
+      - mssql_network
+
+# ---------------------------
+# Volumes
+# ---------------------------
+volumes:
+  sql2019_data:
+  sql2022_data:
+  sql2017_data:
+
+# ---------------------------
+# Network
+# ---------------------------
+networks:
+  mssql_network:
+    driver: bridge
